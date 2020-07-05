@@ -1,14 +1,18 @@
 package com.example.publishinghouse.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "author")
 public class Author {
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    @Column(name = "idAuthor")
+    private int idAuthor;
 
     @Column(name = "firstName")
     private String firstName;
@@ -22,28 +26,31 @@ public class Author {
     @Column(name = "category")
     private String category;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="fk_idPublishingHouse")
-    private PublishingH publishingH;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name="author_publishingH", joinColumns = @JoinColumn(name = "idAuthor"), inverseJoinColumns = @JoinColumn(name = "idPublishingHouse"))
+    @Fetch(FetchMode.JOIN)
+    private Set<PublishingHouse> publishingHs = new HashSet<>();
 
     public Author() {
     }
 
-    public Author(int id, String firstName, String lastName, int bookVersion, String category, PublishingH publishingH) {
-        this.id = id;
+    public Author(int idAuthor, String firstName, String lastName, int bookVersion, String category) {
+        this.idAuthor = idAuthor;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bookVersion = bookVersion;
         this.category = category;
-        this.publishingH = publishingH;
     }
 
     public int getId() {
-        return id;
+        return idAuthor;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idAuthor) {
+        this.idAuthor = idAuthor;
     }
 
     public String getFirstName() {
@@ -78,11 +85,13 @@ public class Author {
         this.category = category;
     }
 
-    public PublishingH getPublishingH() {
-        return publishingH;
+    public Set<PublishingHouse> getPublishingHs() { return publishingHs; }
+
+    public void setPublishingHs(Set<PublishingHouse> publishingHs) {
+        this.publishingHs = publishingHs;
     }
 
-    public void setPublishingH(PublishingH publishingH) {
-        this.publishingH = publishingH;
+    public void addPublishingHouse(PublishingHouse ph) {
+        this.publishingHs.add(ph);
     }
 }

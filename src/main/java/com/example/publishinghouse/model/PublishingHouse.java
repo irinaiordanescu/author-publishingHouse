@@ -1,17 +1,18 @@
 package com.example.publishinghouse.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "publishinghouse")
-public class PublishingH {
+public class PublishingHouse {
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    @Column(name = "idPublishingHouse")
+    private int idPublishingHouse;
 
     @Column(name = "name")
     private String name;
@@ -19,22 +20,26 @@ public class PublishingH {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(mappedBy = "publishingH")
-    private Set<Author> authors = new HashSet<Author>();
+    @ManyToMany(mappedBy = "publishingHs")
+    @Fetch(FetchMode.JOIN)
+    private Set<Author> authors = new HashSet<>();
 
-    public PublishingH(int id, String name, String location, Set<Author> authors) {
-        this.id = id;
+    public PublishingHouse() {
+    }
+
+    public PublishingHouse(int idPublishingHouse, String name, String location, Set<Author> authors) {
+        this.idPublishingHouse = idPublishingHouse;
         this.name = name;
         this.location = location;
         this.authors = authors;
     }
 
     public int getId() {
-        return id;
+        return idPublishingHouse;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idPublishingHouse) {
+        this.idPublishingHouse = idPublishingHouse;
     }
 
     public String getName() {
@@ -59,5 +64,9 @@ public class PublishingH {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public void addAuthor(Author a) {
+        this.authors.add(a);
     }
 }

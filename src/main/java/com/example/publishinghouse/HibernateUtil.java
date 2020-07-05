@@ -1,7 +1,7 @@
 package com.example.publishinghouse;
 
 import com.example.publishinghouse.model.Author;
-import com.example.publishinghouse.model.PublishingH;
+import com.example.publishinghouse.model.PublishingHouse;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -34,7 +34,7 @@ public class HibernateUtil {
                 configuration.setProperties(settings);
 
                 //se incarca ob in Hibernate
-                configuration.addAnnotatedClass(PublishingH.class);
+                configuration.addAnnotatedClass(PublishingHouse.class);
                 configuration.addAnnotatedClass(Author.class);
 
                 //configurare si creeare sessionFactory

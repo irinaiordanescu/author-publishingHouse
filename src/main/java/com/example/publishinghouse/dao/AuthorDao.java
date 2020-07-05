@@ -9,13 +9,13 @@ public interface AuthorDao {
 
     List<Author> selectAllAuthors(); //get
 
-    Optional<Author> selectAuthorById(); //get
+    Optional<Author> selectAuthorById(int id); //get
 
-    List<Author> getAuthorsByPublishingH(int idPublishingH);
+    Optional<Author> addAuthorToPublishingHouse(int idA, int idPH);
 
-    List<Author> getAuthorsFromSamePublishingH(int id);
+    List<Author> selectAllAuthorsByPublishingHouse(int idPH); //get
 
     int deleteAuthorById(int id); //delete
 
-    int updateAuthorById(int id); //put
+    int updateAuthorById(int id, int bookVersion); //put
 }
